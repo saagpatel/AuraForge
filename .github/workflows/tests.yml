@@ -1,0 +1,60 @@
+name: tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches: [main, master]
+
+jobs:
+  web-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Run web tests
+        run: |
+          set -o pipefail
+          npm run test:web 2>&1 | tee web-test.log
+      - name: Upload web test log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-test-log-${{ github.run_number }}
+          path: web-test.log
+
+  smoke-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Run smoke test scenario
+        run: |
+          set -o pipefail
+          npm run test:smoke 2>&1 | tee smoke-test.log
+      - name: Upload smoke test log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-log-${{ github.run_number }}
+          path: smoke-test.log
+
+  rust-tests:
+    runs-on: macos-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: dtolnay/rust-toolchain@master
+      - run: cargo test --manifest-path src-tauri/Cargo.toml
