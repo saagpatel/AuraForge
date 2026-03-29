@@ -79,7 +79,7 @@ jobs:
           set -euo pipefail
           bash scripts/release/verify-macos-artifact.sh "src-tauri/target/release/bundle" "${{ steps.signing.outputs.mode }}"
       - name: Upload RC bundle artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: auraforge-${{ github.run_number }}-${{ steps.signing.outputs.mode }}-${{ inputs.channel }}
           path: |
