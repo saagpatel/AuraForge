@@ -25,7 +25,17 @@ const MUST_HAVE_TOPICS: &[(&str, &[&str])] = &[
     ),
     (
         "Data model / persistence strategy",
-        &["data", "schema", "entity", "table", "persist", "storage"],
+        &[
+            "data",
+            "schema",
+            "entity",
+            "table",
+            "persist",
+            "persistence",
+            "storage",
+            "store",
+            "sqlite",
+        ],
     ),
     (
         "Scope boundaries (what is out for v1)",
@@ -34,7 +44,13 @@ const MUST_HAVE_TOPICS: &[(&str, &[&str])] = &[
             "mvp",
             "v1",
             "out of scope",
+            "out-of-scope",
             "not included",
+            "exclude",
+            "excluded",
+            "skip",
+            "defer",
+            "not now",
             "later",
         ],
     ),
@@ -229,6 +245,34 @@ mod tests {
         )]);
         assert!(report.score >= 90);
         assert!(report.missing_must_haves.is_empty());
+    }
+
+    #[test]
+    fn data_model_keywords_recognize_store_and_sqlite_language() {
+        let coverage = analyze_planning_coverage(&[message(
+            "user",
+            "We store projects, sessions, messages, and generated documents in SQLite.",
+        )]);
+        let topic = coverage
+            .must_have
+            .iter()
+            .find(|topic| topic.topic == "Data model / persistence strategy")
+            .expect("topic should exist");
+        assert_eq!(topic.status, CoverageStatus::Partial);
+    }
+
+    #[test]
+    fn scope_keywords_recognize_out_of_scope_language() {
+        let coverage = analyze_planning_coverage(&[message(
+            "user",
+            "Out of scope for v1: collaboration, billing, and cloud sync. We can defer those until later.",
+        )]);
+        let topic = coverage
+            .must_have
+            .iter()
+            .find(|topic| topic.topic == "Scope boundaries (what is out for v1)")
+            .expect("topic should exist");
+        assert_eq!(topic.status, CoverageStatus::Partial);
     }
 
     #[test]

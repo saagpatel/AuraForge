@@ -150,6 +150,8 @@ pub struct OllamaClient {
     pull_cancelled: Arc<AtomicBool>,
 }
 
+const DOCGEN_MAX_TOKENS_CAP: u64 = 3072;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ProviderKind {
     Ollama,
@@ -727,7 +729,8 @@ impl OllamaClient {
                 stream: false,
                 options: OllamaOptions {
                     temperature,
-                    num_predict: None, // Use Ollama's default for doc generation
+                    // Cap document generation so smaller local models do not stall on long-form docs.
+                    num_predict: Some(config.max_tokens.min(DOCGEN_MAX_TOKENS_CAP) as i64),
                 },
             })
             .timeout(std::time::Duration::from_secs(300))
@@ -930,7 +933,7 @@ impl OllamaClient {
                 messages,
                 stream: false,
                 temperature,
-                max_tokens: None,
+                max_tokens: Some(config.max_tokens.min(DOCGEN_MAX_TOKENS_CAP)),
             })
             .timeout(Duration::from_secs(300));
         let response = self

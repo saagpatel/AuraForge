@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-const host = process.env.TAURI_DEV_HOST;
+const host = process.env.TAURI_DEV_HOST || "127.0.0.1";
 const cacheDir = process.env.VITE_CACHE_DIR || "node_modules/.vite";
 
 export default defineConfig(async () => ({
@@ -22,7 +22,8 @@ export default defineConfig(async () => ({
   server: {
     port: 1420,
     strictPort: true,
-    host: host || false,
+    // Use an explicit IPv4 loopback so Tauri and local probes don't diverge on localhost resolution.
+    host,
     hmr: host
       ? {
           protocol: "ws",
