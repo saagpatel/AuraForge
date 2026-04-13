@@ -8,12 +8,4 @@ if [ -f "$SCRIPT_DIR/_artifact_env.sh" ]; then
   source "$SCRIPT_DIR/_artifact_env.sh"
 fi
 
-echo "NOT_RUN: No test script defined in package.json or CI workflow for this repo."
-echo "Add a canonical test command before treating production-ready quality gates as passing."
-
-if [ "${CODEX_ALLOW_NOT_RUN_GATES:-0}" = "1" ]; then
-  echo "Bypass enabled via CODEX_ALLOW_NOT_RUN_GATES=1; continuing with documented risk."
-  exit 0
-fi
-
-exit 3
+npm run test

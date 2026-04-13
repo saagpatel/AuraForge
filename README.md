@@ -3,22 +3,43 @@
 ## Development Modes
 
 ### Normal dev
+
 Use normal mode for fastest repeat startup because caches are kept in the repo.
 
 ```bash
+npm ci
 npm run dev:tauri
 ```
 
 ### Lean dev (low disk)
+
 Lean mode runs the same app startup command, but moves heavy transient build caches to a temporary directory and removes them automatically when the process exits.
 
 ```bash
+npm ci
 npm run dev:lean
+```
+
+## Verification Commands
+
+Run the deterministic project gate suite:
+
+```bash
+bash .codex/scripts/run_verify_commands.sh
+```
+
+Run tests directly:
+
+```bash
+npm run test:web
+npm run test:smoke
+npm run test:rust
 ```
 
 ## Cleanup Commands
 
 ### Remove heavy build artifacts only
+
 Keeps dependencies (`node_modules`) but removes large generated outputs.
 
 ```bash
@@ -26,12 +47,14 @@ npm run clean:heavy
 ```
 
 Removes:
+
 - `dist`
 - `src-tauri/target`
 - `node_modules/.vite`
 - `.vite`
 
 ### Full local cleanup (all reproducible caches)
+
 Use when you need maximum disk recovery. Next startup/install will be slower.
 
 ```bash
@@ -39,6 +62,7 @@ npm run clean:all-local
 ```
 
 Removes:
+
 - `node_modules`
 - `dist`
 - `src-tauri/target`
