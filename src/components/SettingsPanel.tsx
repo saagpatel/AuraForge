@@ -27,12 +27,14 @@ const SECTIONS: { key: Section; label: string }[] = [
 
 export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   const { loadConfig, updateConfig, listModels, installedModels } =
-    useChatStore(useShallow((s) => ({
-      loadConfig: s.loadConfig,
-      updateConfig: s.updateConfig,
-      listModels: s.listModels,
-      installedModels: s.installedModels,
-    })));
+    useChatStore(
+      useShallow((s) => ({
+        loadConfig: s.loadConfig,
+        updateConfig: s.updateConfig,
+        listModels: s.listModels,
+        installedModels: s.installedModels,
+      })),
+    );
 
   const [isAdvanced, setIsAdvanced] = useState(false);
   const [activeSection, setActiveSection] = useState<Section>("llm");
@@ -49,7 +51,8 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
 
   // Search state
   const [searchEnabled, setSearchEnabled] = useState(true);
-  const [searchProvider, setSearchProvider] = useState<SearchConfig["provider"]>("duckduckgo");
+  const [searchProvider, setSearchProvider] =
+    useState<SearchConfig["provider"]>("duckduckgo");
   const [tavilyApiKey, setTavilyApiKey] = useState("");
   const [searxngUrl, setSearxngUrl] = useState("");
   const [proactive, setProactive] = useState(true);
@@ -58,7 +61,8 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   const [includeConversation, setIncludeConversation] = useState(true);
   const [defaultSavePath, setDefaultSavePath] = useState("~/Projects");
   const [defaultTarget, setDefaultTarget] = useState<ForgeTarget>("generic");
-  const [lintMode, setLintMode] = useState<OutputConfig["lint_mode"]>("fail_on_critical");
+  const [lintMode, setLintMode] =
+    useState<OutputConfig["lint_mode"]>("fail_on_critical");
   const [uiTheme, setUiTheme] = useState<UIConfig["theme"]>("dark");
 
   useEffect(() => {
@@ -123,8 +127,10 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
     const search: SearchConfig = {
       enabled: searchEnabled,
       provider: searchEnabled ? searchProvider : "none",
-      tavily_api_key: searchEnabled && searchProvider === "tavily" ? tavilyApiKey : "",
-      searxng_url: searchEnabled && searchProvider === "searxng" ? searxngUrl : "",
+      tavily_api_key:
+        searchEnabled && searchProvider === "tavily" ? tavilyApiKey : "",
+      searxng_url:
+        searchEnabled && searchProvider === "searxng" ? searxngUrl : "",
       proactive,
     };
 
@@ -145,13 +151,19 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
       setSaveError(null);
       onClose();
     } else {
-      setSaveError("Invalid settings. Check your model and search configuration.");
+      setSaveError(
+        "Invalid settings. Check your model and search configuration.",
+      );
     }
   };
 
   const handleRerunSetup = async () => {
     await invoke("set_preference", { key: "wizard_completed", value: "false" });
-    useChatStore.setState({ wizardCompleted: false, onboardingDismissed: false, wizardStep: "welcome" });
+    useChatStore.setState({
+      wizardCompleted: false,
+      onboardingDismissed: false,
+      wizardStep: "welcome",
+    });
     onClose();
   };
 
@@ -199,11 +211,15 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                 </label>
                 <select
                   value={provider}
-                  onChange={(e) => setProvider(e.target.value as LLMConfig["provider"])}
+                  onChange={(e) =>
+                    setProvider(e.target.value as LLMConfig["provider"])
+                  }
                   className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                 >
                   <option value="ollama">Ollama</option>
-                  <option value="openai_compatible">OpenAI-compatible (local)</option>
+                  <option value="openai_compatible">
+                    OpenAI-compatible (local)
+                  </option>
                 </select>
               </div>
 
@@ -229,7 +245,7 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     type="text"
                     value={model}
                     onChange={(e) => setModel(e.target.value)}
-                    placeholder="e.g. qwen3-coder:30b"
+                    placeholder="e.g. qwen2.5-coder:1.5b"
                     className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                   />
                 )}
@@ -271,16 +287,14 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
               <div>
                 <label className="flex items-center justify-between cursor-pointer">
                   <span className="text-sm text-text-primary">Web Search</span>
-                  <Toggle
-                    checked={searchEnabled}
-                    onChange={setSearchEnabled}
-                  />
+                  <Toggle checked={searchEnabled} onChange={setSearchEnabled} />
                 </label>
 
                 {searchEnabled && (
                   <div className="mt-2 space-y-2">
                     <p className="text-xs text-text-muted">
-                      Uses DuckDuckGo by default. Optional: add Tavily for stronger search quality.
+                      Uses DuckDuckGo by default. Optional: add Tavily for
+                      stronger search quality.
                     </p>
                     <input
                       type="password"
@@ -299,7 +313,8 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     />
                     {missingTavilyKey && (
                       <p className="text-xs text-status-warning">
-                        Tavily requires an API key. Add one or use DuckDuckGo/SearXNG.
+                        Tavily requires an API key. Add one or use
+                        DuckDuckGo/SearXNG.
                       </p>
                     )}
                   </div>
@@ -326,7 +341,9 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                 </label>
                 <select
                   value={defaultTarget}
-                  onChange={(e) => setDefaultTarget(e.target.value as ForgeTarget)}
+                  onChange={(e) =>
+                    setDefaultTarget(e.target.value as ForgeTarget)
+                  }
                   className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                 >
                   <option value="generic">Generic Agent</option>
@@ -343,10 +360,14 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                 </label>
                 <select
                   value={lintMode}
-                  onChange={(e) => setLintMode(e.target.value as OutputConfig["lint_mode"])}
+                  onChange={(e) =>
+                    setLintMode(e.target.value as OutputConfig["lint_mode"])
+                  }
                   className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                 >
-                  <option value="fail_on_critical">Fail on critical issues</option>
+                  <option value="fail_on_critical">
+                    Fail on critical issues
+                  </option>
                   <option value="warn">Warn only</option>
                 </select>
               </div>
@@ -402,7 +423,8 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                   </h3>
 
                   <p className="text-xs text-text-muted">
-                    Local-only mode is enabled. Use Ollama or any local OpenAI-compatible endpoint.
+                    Local-only mode is enabled. Use Ollama or any local
+                    OpenAI-compatible endpoint.
                   </p>
 
                   <div>
@@ -411,11 +433,15 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     </label>
                     <select
                       value={provider}
-                      onChange={(e) => setProvider(e.target.value as LLMConfig["provider"])}
+                      onChange={(e) =>
+                        setProvider(e.target.value as LLMConfig["provider"])
+                      }
                       className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                     >
                       <option value="ollama">Ollama</option>
-                      <option value="openai_compatible">OpenAI-compatible (local)</option>
+                      <option value="openai_compatible">
+                        OpenAI-compatible (local)
+                      </option>
                     </select>
                   </div>
 
@@ -427,7 +453,7 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                       type="text"
                       value={model}
                       onChange={(e) => setModel(e.target.value)}
-                      placeholder="e.g. qwen3-coder:30b"
+                      placeholder="e.g. qwen2.5-coder:1.5b"
                       className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                     />
                   </div>
@@ -526,7 +552,9 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                         <select
                           value={searchProvider}
                           onChange={(e) =>
-                            setSearchProvider(e.target.value as SearchConfig["provider"])
+                            setSearchProvider(
+                              e.target.value as SearchConfig["provider"],
+                            )
                           }
                           className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                         >
@@ -550,7 +578,8 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                           />
                           {missingTavilyKey && (
                             <p className="text-xs text-status-warning mt-1.5">
-                              Tavily key is required when Tavily provider is selected.
+                              Tavily key is required when Tavily provider is
+                              selected.
                             </p>
                           )}
                         </div>
@@ -627,7 +656,9 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     </label>
                     <select
                       value={defaultTarget}
-                      onChange={(e) => setDefaultTarget(e.target.value as ForgeTarget)}
+                      onChange={(e) =>
+                        setDefaultTarget(e.target.value as ForgeTarget)
+                      }
                       className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                     >
                       <option value="generic">Generic Agent</option>
@@ -644,10 +675,14 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     </label>
                     <select
                       value={lintMode}
-                      onChange={(e) => setLintMode(e.target.value as OutputConfig["lint_mode"])}
+                      onChange={(e) =>
+                        setLintMode(e.target.value as OutputConfig["lint_mode"])
+                      }
                       className="w-full px-3 py-2 bg-surface border border-border-default rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent-glow focus:shadow-[0_0_0_3px_rgba(232,160,69,0.15)] transition-colors"
                     >
-                      <option value="fail_on_critical">Fail on critical issues</option>
+                      <option value="fail_on_critical">
+                        Fail on critical issues
+                      </option>
                       <option value="warn">Warn only</option>
                     </select>
                   </div>
@@ -663,19 +698,19 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
             <p className="text-xs text-status-error mb-3">{saveError}</p>
           )}
           <div className="flex justify-end gap-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm text-text-secondary bg-transparent border border-border-default rounded-lg hover:text-text-primary hover:border-text-muted transition-colors cursor-pointer"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={saving || missingTavilyKey}
-            className="px-4 py-2 bg-accent-gold text-void text-sm font-medium rounded-lg hover:bg-accent-gold/90 transition-colors cursor-pointer disabled:opacity-50 border-none"
-          >
-            {saving ? "Saving..." : "Save"}
-          </button>
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-sm text-text-secondary bg-transparent border border-border-default rounded-lg hover:text-text-primary hover:border-text-muted transition-colors cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={saving || missingTavilyKey}
+              className="px-4 py-2 bg-accent-gold text-void text-sm font-medium rounded-lg hover:bg-accent-gold/90 transition-colors cursor-pointer disabled:opacity-50 border-none"
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
           </div>
         </div>
       </div>

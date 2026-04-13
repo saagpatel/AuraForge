@@ -10,7 +10,7 @@ const DEFAULT_CONFIG_YAML: &str = r#"# AuraForge Configuration
 # LLM Provider Settings
 llm:
   provider: ollama                          # ollama | openai_compatible
-  model: qwen3-coder
+  model: qwen2.5-coder:1.5b
   base_url: http://localhost:11434          # Ollama default (LM Studio commonly uses :1234)
   api_key: ""                               # optional for openai_compatible runtimes
   temperature: 0.7
