@@ -1,5 +1,13 @@
 # codex-os-managed
-pnpm git:guard:all
-pnpm perf:bundle
-pnpm perf:build
-pnpm perf:assets
+npm ci
+npm run git:guard:all
+npm run test
+npm run test:smoke
+npm run build
+npm run perf:bundle
+node scripts/perf/compare-metric.mjs .perf-baselines/bundle.json .perf-results/bundle.json totalBytes 0.08
+npm run perf:build
+node scripts/perf/compare-metric.mjs .perf-baselines/build-time.json .perf-results/build-time.json buildMs 0.15
+npm run perf:assets
+MEMORY_MAX_DELTA_MB=5 npm run perf:memory
+npm run perf:summary

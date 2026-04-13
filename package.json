@@ -39,8 +39,8 @@
     "perf:lhci": "npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.json",
     "perf:lhci:prod": "npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.production.json",
     "perf:summary": "node scripts/perf/summarize.mjs",
-    "phase4:prereqs": "bash scripts/release/check-phase4-prereqs.sh saagpatel/AuraForge",
-    "phase4:gates": "bash scripts/release/run-phase4-gates.sh saagpatel/AuraForge",
+    "phase4:prereqs": "bash scripts/release/check-phase4-prereqs.sh saagar210/auraforge",
+    "phase4:gates": "bash scripts/release/run-phase4-gates.sh saagar210/auraforge",
     "lint-staged": "lint-staged"
   },
   "dependencies": {
@@ -57,25 +57,23 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.7.0",
-    "@testing-library/react": "^16.3.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@tailwindcss/vite": "^4.0.0",
     "@tauri-apps/cli": "^2.10.0",
+    "@testing-library/jest-dom": "^6.7.0",
+    "@testing-library/react": "^16.3.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/react-syntax-highlighter": "^15.5.0",
     "@vitejs/plugin-react": "^4.3.0",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.6.2",
     "tailwindcss": "^4.0.0",
     "typescript": "~5.7.0",
     "vite": "^6.0.0",
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
-    "@commitlint/cz-commitlint": "^19.8.1",
-    "@lhci/cli": "^0.15.1",
-    "husky": "^9.1.7",
-    "lint-staged": "^15.5.2",
-    "prettier": "^3.6.2",
     "vitest": "^3.2.4"
   },
   "lint-staged": {

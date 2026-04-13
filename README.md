@@ -4,7 +4,7 @@
 
 > Turn a rough app idea into a fully scoped engineering spec — locally, privately, and fast enough to do it before you lose the spark.
 
-AuraForge is a native desktop app built on Tauri + React + Rust. It acts as your AI planning partner during the *thinking* phase: you describe what you want to build, and AuraForge guides you through scope, architecture, data model, and edge cases until it can emit a comprehensive spec document that AI coding tools like Claude Code can execute with minimal guesswork.
+AuraForge is a native desktop app built on Tauri + React + Rust. It acts as your AI planning partner during the _thinking_ phase: you describe what you want to build, and AuraForge guides you through scope, architecture, data model, and edge cases until it can emit a comprehensive spec document that AI coding tools like Claude Code can execute with minimal guesswork.
 
 Everything runs locally via Ollama. No data leaves your machine.
 
@@ -48,14 +48,14 @@ On first launch, the onboarding wizard guides you through connecting Ollama and 
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Desktop shell | Tauri 2 |
-| Frontend | React 19, TypeScript, Tailwind CSS 4, Zustand |
-| Backend | Rust — document generation, linting, artifact diffing, search |
-| Local AI | Ollama (any compatible model) |
-| Storage | SQLite via rusqlite, local app data dir |
-| Testing | Vitest, Testing Library |
+| Layer         | Technology                                                    |
+| ------------- | ------------------------------------------------------------- |
+| Desktop shell | Tauri 2                                                       |
+| Frontend      | React 19, TypeScript, Tailwind CSS 4, Zustand                 |
+| Backend       | Rust — document generation, linting, artifact diffing, search |
+| Local AI      | Ollama (any compatible model)                                 |
+| Storage       | SQLite via rusqlite, local app data dir                       |
+| Testing       | Vitest, Testing Library                                       |
 
 ## Architecture
 

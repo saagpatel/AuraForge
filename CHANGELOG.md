@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-03-21
 
 ### Added
+
 - Branch sessions from any message
 - Local codebase context import for planning
 - Template-driven session bootstrap
@@ -35,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI: publish test and RC lanes, Linux checks, and bundle workflow
 
 ### Fixed
+
 - Pin AuraForge Rust toolchain
 - Avoid ripgrep dependency in invariant check step
 - Use correct Ollama model tag for qwen3-coder
@@ -59,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enforce local-only and free provider defaults
 
 ### Changed
+
 - Normalize local provider contract handling
 - Cap file reads and enforce frontend tests in CI
 - Harden search fallback and operation gating

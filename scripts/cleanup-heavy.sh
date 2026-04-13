@@ -15,8 +15,8 @@ paths=(
 for path in "${paths[@]}"; do
   if [ -e "$path" ]; then
     rm -rf "$path"
-    echo "[clean:heavy] removed $path"
+    echo "(clean:heavy) removed $path"
   else
-    echo "[clean:heavy] skipped $path (not present)"
+    echo "(clean:heavy) skipped $path (not present)"
   fi
 done

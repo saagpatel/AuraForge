@@ -3,10 +3,10 @@
 . "$(dirname -- "$0")/_/husky.sh" 2>/dev/null || true
 
 run_script() {
-  if command -v pnpm >/dev/null 2>&1; then
-    pnpm "$@"
-  elif command -v npm >/dev/null 2>&1; then
+  if command -v npm >/dev/null 2>&1; then
     npm run "$1" --if-present
+  elif command -v pnpm >/dev/null 2>&1; then
+    pnpm "$@"
   elif command -v yarn >/dev/null 2>&1; then
     yarn "$@"
   else

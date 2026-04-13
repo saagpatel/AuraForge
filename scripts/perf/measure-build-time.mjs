@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 
 const npmExecPath = process.env.npm_execpath;
 if (!npmExecPath) {
-  console.error("npm_execpath is not set; run this script through pnpm, npm, or yarn.");
+  console.error("npm_execpath is not set; run this script through npm.");
   process.exit(1);
 }
 

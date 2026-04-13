@@ -1004,7 +1004,7 @@ mod tests {
             &session.id,
             "generic",
             "ollama",
-            "qwen3-coder",
+            "qwen2.5-coder:1.5b",
             Some("run-1"),
             Some(r#"{"score":75}"#),
             Some(r#"{"score":82}"#),
@@ -1014,7 +1014,7 @@ mod tests {
         let meta = db.get_generation_metadata(&session.id).unwrap().unwrap();
         assert_eq!(meta.target, "generic");
         assert_eq!(meta.provider, "ollama");
-        assert_eq!(meta.model, "qwen3-coder");
+        assert_eq!(meta.model, "qwen2.5-coder:1.5b");
         assert_eq!(meta.run_id.as_deref(), Some("run-1"));
         assert_eq!(meta.confidence_json.as_deref(), Some(r#"{"score":82}"#));
 
@@ -1046,7 +1046,7 @@ mod tests {
             session_id: session.id.clone(),
             target: "codex".to_string(),
             provider: "ollama".to_string(),
-            model: "qwen3-coder".to_string(),
+            model: "qwen2.5-coder:1.5b".to_string(),
             input_fingerprint: "abc123".to_string(),
             lint_summary_json: Some(r#"{"critical":0}"#.to_string()),
             diff_summary_json: None,
