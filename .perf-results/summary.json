@@ -1,33 +1,33 @@
 {
-  "capturedAt": "2026-04-12T08:34:56.969Z",
+  "capturedAt": "2026-05-03T13:12:42.281Z",
   "metrics": {
     "bundle": {
       "source": "vite",
-      "totalBytes": 586398,
+      "totalBytes": 586427,
       "assets": {
         "index.html": 807,
-        "assets/DocumentPreview-Bctj9y25.js": 7635,
-        "assets/HelpPanel-C366mElE.js": 6757,
-        "assets/SettingsPanel-CoXyf44T.js": 18984,
+        "assets/DocumentPreview-DkVORLSG.js": 7635,
+        "assets/HelpPanel-CNGEJkJJ.js": 6757,
+        "assets/SettingsPanel-PEjGkYCc.js": 18984,
         "assets/SyntaxCodeBlock-DNBHcpeK.js": 76199,
-        "assets/index-CZ5JzY8b.js": 268648,
-        "assets/index-o_QqLvw5.css": 37685,
+        "assets/index-BVyXuAWF.js": 268648,
+        "assets/index-KSfQzDQq.css": 37714,
         "assets/vendor-markdown-Di0KN8eB.js": 165781,
         "assets/vendor-react-CzdGwUAN.js": 3902
       },
-      "capturedAt": "2026-04-12T08:34:51.853Z"
+      "capturedAt": "2026-05-03T13:12:38.601Z"
     },
     "build": {
-      "buildMs": 4126,
-      "capturedAt": "2026-04-12T08:34:56.265Z",
+      "buildMs": 3171,
+      "capturedAt": "2026-05-03T13:12:41.903Z",
       "command": "npm_execpath run build"
     },
     "memory": {
-      "heapBefore": 3387920,
-      "heapAfter": 3394144,
-      "deltaMb": 0.01,
+      "heapBefore": 3866648,
+      "heapAfter": 3871328,
+      "deltaMb": 0,
       "maxDeltaMb": 5,
-      "capturedAt": "2026-04-12T08:34:56.765Z"
+      "capturedAt": "2026-05-03T13:12:42.168Z"
     },
     "api": {
       "status": "not-run"
