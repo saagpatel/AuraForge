@@ -380,21 +380,28 @@ pub async fn create_branch_from_message(
     state: State<'_, AppState>,
     request: CreateBranchRequest,
 ) -> Result<Session, ErrorResponse> {
-    let source_session = state
-        .db
-        .get_session(&request.session_id)
-        .map_err(to_response)?;
-    let source_messages = state
-        .db
-        .get_messages(&request.session_id)
-        .map_err(to_response)?;
+    create_branch_from_message_in_db(&state.db, request)
+}
+
+fn create_branch_from_message_in_db(
+    db: &crate::db::Database,
+    request: CreateBranchRequest,
+) -> Result<Session, ErrorResponse> {
+    let CreateBranchRequest {
+        session_id,
+        from_message_id,
+        name,
+    } = request;
+
+    let source_session = db.get_session(&session_id).map_err(to_response)?;
+    let source_messages = db.get_messages(&session_id).map_err(to_response)?;
     if source_messages.is_empty() {
         return Err(to_response(AppError::Validation(
             "Cannot branch an empty conversation.".to_string(),
         )));
     }
 
-    let cutoff_index = match request.from_message_id.as_ref() {
+    let cutoff_index = match from_message_id.as_ref() {
         Some(message_id) => source_messages
             .iter()
             .position(|message| &message.id == message_id)
@@ -408,63 +415,50 @@ pub async fn create_branch_from_message(
     };
     let copied_messages = &source_messages[..=cutoff_index];
 
-    let default_name = request
-        .name
-        .unwrap_or_else(|| format!("{} (branch)", source_session.name));
-    let branch_session = state
-        .db
+    let default_name = name.unwrap_or_else(|| format!("{} (branch)", source_session.name));
+    let branch_session = db
         .create_session(Some(default_name.as_str()))
         .map_err(to_response)?;
-    let root_session_id = state
-        .db
-        .get_branch_root_session_id(&request.session_id)
+    let root_session_id = db
+        .get_branch_root_session_id(&session_id)
         .map_err(to_response)?;
-    state
-        .db
-        .register_branch(
-            &branch_session.id,
-            &root_session_id,
-            &request.session_id,
-            request.from_message_id.as_deref(),
-        )
-        .map_err(to_response)?;
+    db.register_branch(
+        &branch_session.id,
+        &root_session_id,
+        &session_id,
+        from_message_id.as_deref(),
+    )
+    .map_err(to_response)?;
 
     for message in copied_messages {
         if message.role == "system" {
             continue;
         }
-        state
-            .db
-            .save_message(
-                &branch_session.id,
-                &message.role,
-                &message.content,
-                message.metadata.as_deref(),
-            )
-            .map_err(to_response)?;
+        db.save_message(
+            &branch_session.id,
+            &message.role,
+            &message.content,
+            message.metadata.as_deref(),
+        )
+        .map_err(to_response)?;
     }
 
     let note_metadata = serde_json::json!({
         "branch_root_session_id": root_session_id,
-        "branch_source_session_id": request.session_id,
-        "branch_source_message_id": request.from_message_id,
+        "branch_source_session_id": session_id,
+        "branch_source_message_id": from_message_id,
     })
     .to_string();
     let branch_note = "Branch created. Continue this path with alternate decisions while preserving the original session.";
-    state
-        .db
-        .save_message(
-            &branch_session.id,
-            "assistant",
-            branch_note,
-            Some(note_metadata.as_str()),
-        )
-        .map_err(to_response)?;
+    db.save_message(
+        &branch_session.id,
+        "assistant",
+        branch_note,
+        Some(note_metadata.as_str()),
+    )
+    .map_err(to_response)?;
 
-    state
-        .db
-        .get_session(&branch_session.id)
-        .map_err(to_response)
+    db.get_session(&branch_session.id).map_err(to_response)
 }
 
 #[tauri::command(rename_all = "snake_case")]
@@ -1646,6 +1640,7 @@ fn build_search_context(query: &str, results: &[SearchResult]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::db::Database;
 
     fn doc(filename: &str, content: &str) -> GeneratedDocument {
         GeneratedDocument {
@@ -1655,6 +1650,110 @@ mod tests {
             content: content.to_string(),
             created_at: "2026-01-01 00:00:00".to_string(),
         }
+    }
+
+    fn test_db() -> Database {
+        Database::new_in_memory().expect("test database should initialize")
+    }
+
+    #[test]
+    fn create_branch_from_message_copies_through_cutoff_and_skips_system_messages() {
+        let db = test_db();
+        let source = db.create_session(Some("Original")).unwrap();
+        db.save_message(&source.id, "system", "hidden instructions", None)
+            .unwrap();
+        let first = db
+            .save_message(&source.id, "user", "initial idea", None)
+            .unwrap();
+        let cutoff = db
+            .save_message(&source.id, "assistant", "first answer", None)
+            .unwrap();
+        db.save_message(&source.id, "user", "later branch", None)
+            .unwrap();
+
+        let branch = create_branch_from_message_in_db(
+            &db,
+            CreateBranchRequest {
+                session_id: source.id.clone(),
+                from_message_id: Some(cutoff.id.clone()),
+                name: Some("Alternate path".to_string()),
+            },
+        )
+        .expect("branch command should succeed");
+
+        assert_eq!(branch.name, "Alternate path");
+        let messages = db.get_messages(&branch.id).unwrap();
+        let copied = messages
+            .iter()
+            .map(|message| (message.role.as_str(), message.content.as_str()))
+            .collect::<Vec<_>>();
+        assert_eq!(
+            copied,
+            vec![
+                ("user", first.content.as_str()),
+                ("assistant", cutoff.content.as_str()),
+                (
+                    "assistant",
+                    "Branch created. Continue this path with alternate decisions while preserving the original session."
+                ),
+            ]
+        );
+        assert_eq!(
+            db.get_branch_root_session_id(&branch.id).unwrap(),
+            source.id
+        );
+    }
+
+    #[test]
+    fn create_branch_from_nested_branch_preserves_original_root() {
+        let db = test_db();
+        let root = db.create_session(Some("Root")).unwrap();
+        let root_message = db
+            .save_message(&root.id, "user", "root idea", None)
+            .unwrap();
+        let first_branch = create_branch_from_message_in_db(
+            &db,
+            CreateBranchRequest {
+                session_id: root.id.clone(),
+                from_message_id: Some(root_message.id),
+                name: None,
+            },
+        )
+        .expect("first branch should succeed");
+        let branch_message = db
+            .save_message(&first_branch.id, "user", "branch idea", None)
+            .unwrap();
+
+        let nested = create_branch_from_message_in_db(
+            &db,
+            CreateBranchRequest {
+                session_id: first_branch.id.clone(),
+                from_message_id: Some(branch_message.id),
+                name: None,
+            },
+        )
+        .expect("nested branch should succeed");
+
+        assert_eq!(db.get_branch_root_session_id(&nested.id).unwrap(), root.id);
+    }
+
+    #[test]
+    fn create_branch_from_message_rejects_unknown_cutoff_message() {
+        let db = test_db();
+        let source = db.create_session(Some("Original")).unwrap();
+        db.save_message(&source.id, "user", "initial idea", None)
+            .unwrap();
+
+        let result = create_branch_from_message_in_db(
+            &db,
+            CreateBranchRequest {
+                session_id: source.id,
+                from_message_id: Some("missing-message".to_string()),
+                name: None,
+            },
+        );
+
+        assert!(result.is_err());
     }
 
     #[test]
