@@ -98,7 +98,14 @@ jobs:
             echo "APPLE_API_KEY_PATH=${API_KEY_PATH}"
           } >> "$GITHUB_ENV"
       - name: Build RC artifact
-        run: npm run tauri -- build
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "${APPLE_API_KEY_PATH:-}" ]]; then
+            unset APPLE_ID
+            unset APPLE_PASSWORD
+          fi
+          npm run tauri -- build
       - name: Verify macOS artifact integrity
         id: verify_artifact
         shell: bash
