@@ -2,13 +2,13 @@
 
 ## Decision Metadata
 
-- Decision status: `No-go`
-- Decision date: `2026-02-22`
-- Decision timestamp (UTC): `2026-02-22T12:01:17Z`
+- Decision status: `Go`
+- Decision date: `2026-05-17`
+- Decision timestamp (UTC): `2026-05-17T04:47:09Z`
 - Decision owners: `AuraForge PM` (primary), `AuraForge Eng` (backup)
 - Candidate label: `RC1-phase4-week4-close`
 - Target channel: `qa`
-- Follow-on track: `Week 5 Track B (remediation sprint)`
+- Follow-on track: `QA pilot readiness / release handoff`
 
 ## Required Evidence Fields
 
@@ -29,31 +29,41 @@
 
 ## Gate Results (Pass/Fail Contract)
 
-| Gate                                                                | Source                                                                         | Status  | Evidence                                                                    |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------- | --------------------------------------------------------------------------- |
-| Engineering baseline (`run_verify_commands.sh`)                     | `.codex/verify.commands`                                                       | Pass    | Local run passed on 2026-02-22                                              |
-| Web tests (`npm run test:web`)                                      | `package.json`                                                                 | Pass    | Included in verify run on 2026-02-22                                        |
-| Smoke tests (`npm run test:smoke`)                                  | `package.json`                                                                 | Pass    | Deterministic local smoke lane passed on 2026-02-22                         |
-| Rust tests (`cargo test --manifest-path src-tauri/Cargo.toml`)      | `package.json`                                                                 | Pass    | Included in verify run on 2026-02-22                                        |
-| Security (`npm audit --json`)                                       | `docs/release/RC_CHECKLIST.md`                                                 | Pass    | 0 vulnerabilities on 2026-02-22                                             |
-| Signed CI release (`release-rc` with `require_signed=true`)         | `.github/workflows/release-rc.yml`                                             | Pass    | Latest run `25980981366` produced signed QA artifact                        |
-| Signed artifact verification (`codesign`/`spctl`/`stapler`)         | `.github/workflows/release-rc.yml`, `scripts/release/verify-macos-artifact.sh` | Pass    | Codesign, Gatekeeper, notarization, and stapler passed in run `25980981366` |
-| Critical-path signed artifact smoke                                 | `docs/release/SIGNED_SMOKE_CHECKLIST.md`                                       | Not run | Signed artifact available; smoke not executed                               |
-| Unsigned control release (`release-rc` with `require_signed=false`) | `.github/workflows/release-rc.yml`                                             | Pass    | Run `22276565971` produced unsigned QA artifact                             |
+| Gate                                                                | Source                                                                         | Status | Evidence                                                                     |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------ | ---------------------------------------------------------------------------- |
+| Engineering baseline (`run_verify_commands.sh`)                     | `.codex/verify.commands`                                                       | Pass   | Local run passed on 2026-02-22                                               |
+| Web tests (`npm run test:web`)                                      | `package.json`                                                                 | Pass   | Included in verify run on 2026-02-22                                         |
+| Smoke tests (`npm run test:smoke`)                                  | `package.json`                                                                 | Pass   | Deterministic local smoke lane passed on 2026-02-22                          |
+| Rust tests (`cargo test --manifest-path src-tauri/Cargo.toml`)      | `package.json`                                                                 | Pass   | Included in verify run on 2026-02-22                                         |
+| Security (`npm audit --json`)                                       | `docs/release/RC_CHECKLIST.md`                                                 | Pass   | 0 vulnerabilities on 2026-02-22                                              |
+| Signed CI release (`release-rc` with `require_signed=true`)         | `.github/workflows/release-rc.yml`                                             | Pass   | Latest run `25980981366` produced signed QA artifact                         |
+| Signed artifact verification (`codesign`/`spctl`/`stapler`)         | `.github/workflows/release-rc.yml`, `scripts/release/verify-macos-artifact.sh` | Pass   | Codesign, Gatekeeper, notarization, and stapler passed in run `25980981366`  |
+| Critical-path signed artifact smoke                                 | `docs/release/SIGNED_SMOKE_CHECKLIST.md`                                       | Pass   | Signed artifact installed, launched, generated documents, and exported files |
+| Unsigned control release (`release-rc` with `require_signed=false`) | `.github/workflows/release-rc.yml`                                             | Pass   | Run `22276565971` produced unsigned QA artifact                              |
 
 ## Recommendation
 
-- Current recommendation: `No-go until signed smoke completes`
+- Current recommendation: `Go for QA pilot handoff`
 - Rationale:
 
 1. Signed CI now builds, signs, notarizes, verifies, and uploads the QA artifact successfully.
-2. Critical-path signed artifact smoke has not been executed against the signed artifact.
-3. Engineering and security baselines are stable, so remaining work is isolated to signed smoke closure.
+2. Critical-path signed artifact smoke passed against the signed artifact.
+3. Engineering and security baselines are stable, and all release blockers are closed.
 
 ## Open Blockers
 
-1. Execute signed critical-path smoke checklist on the signed artifact.
-2. Update this record to `Go` only if signed smoke passes.
+None.
+
+## Signed Smoke Evidence (2026-05-17)
+
+| Field             | Value                                                                                                               |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Installed app     | `/tmp/AuraForge-signed-smoke-install/AuraForge.app`                                                                 |
+| Export folder     | `/Users/d/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan` |
+| Local smoke model | `qwen2.5-coder:1.5b` through Ollama at `http://localhost:11434`                                                     |
+| Database evidence | `~/.auraforge/auraforge.db` contained 1 session, 6 messages, 1 generation run, and 10 generated documents           |
+| Export evidence   | Export folder contains 12 readable files: planning docs, context, handoff, reports, and manifest                    |
+| Result            | Pass                                                                                                                |
 
 ## Execution Notes (2026-05-17)
 
@@ -63,6 +73,10 @@
    - Result: run `25980981366` succeeded and uploaded artifact `7039209964 / auraforge-3-signed-qa`.
 3. Command: `npm run phase4:gates`
    - Result: Phase 4 gate pack passed locally before the workflow fix was merged.
+4. Command: `hdiutil verify /tmp/auraforge-signed-smoke.O5QSII/dmg/AuraForge_0.1.0_aarch64.dmg`, `codesign --verify --deep --strict --verbose=2 /tmp/AuraForge-signed-smoke-install/AuraForge.app`, `spctl --assess --type execute --verbose=4 /tmp/AuraForge-signed-smoke-install/AuraForge.app`
+   - Result: DMG checksum valid; installed signed app passed codesign and Gatekeeper assessment with `source=Notarized Developer ID`.
+5. Signed app smoke path:
+   - Result: launched signed app, completed setup, created a SmokeNotes project, submitted three planning prompts, generated documents, and exported the plan successfully.
 
 ## Execution Notes (2026-02-22)
 
