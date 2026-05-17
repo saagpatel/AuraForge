@@ -2,17 +2,16 @@
 
 ## Open Blockers
 
-| Blocker                                                    | Impact                     | Owner         | Mitigation                                                                          | Target Resolution | Status |
-| ---------------------------------------------------------- | -------------------------- | ------------- | ----------------------------------------------------------------------------------- | ----------------- | ------ |
-| Signed critical-path smoke not executed on signed artifact | Go decision cannot be made | AuraForge Eng | Run `docs/release/SIGNED_SMOKE_CHECKLIST.md` on signed artifact and attach evidence | 2026-05-17        | Open   |
+None.
 
 ## Resolved Today (2026-05-17)
 
-| Item                                              | Evidence                                                                                                                      | Status |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------ |
-| Signing and notarization repository secrets added | `npm run phase4:prereqs` reports required signing secrets and notarization credentials present for `saagpatel/AuraForge`      | Closed |
-| App Store Connect API-key notarization supported  | `release-rc.yml` accepts `APPLE_API_KEY_ID`, `APPLE_API_ISSUER`, and `APPLE_API_PRIVATE_KEY` as the notarization set          | Closed |
-| Signed release lane validated                     | Run `25980981366` produced signed QA artifact `auraforge-3-signed-qa`; codesign, Gatekeeper, notarization, and stapler passed | Closed |
+| Item                                              | Evidence                                                                                                                                                                                                                | Status |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| Signed critical-path smoke passed                 | Signed app installed, launched, created a session, generated 10 documents, and exported 12 files to `/Users/d/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan` | Closed |
+| Signing and notarization repository secrets added | `npm run phase4:prereqs` reports required signing secrets and notarization credentials present for `saagpatel/AuraForge`                                                                                                | Closed |
+| App Store Connect API-key notarization supported  | `release-rc.yml` accepts `APPLE_API_KEY_ID`, `APPLE_API_ISSUER`, and `APPLE_API_PRIVATE_KEY` as the notarization set                                                                                                    | Closed |
+| Signed release lane validated                     | Run `25980981366` produced signed QA artifact `auraforge-3-signed-qa`; codesign, Gatekeeper, notarization, and stapler passed                                                                                           | Closed |
 
 ## Resolved Today (2026-02-22)
 
@@ -25,8 +24,9 @@
 
 ## Week 4 Outcome
 
-- Week 4 closed as: `No-go`
-- Follow-on path: `Week 5 Track B (remediation sprint)`
+- Week 4 originally closed as: `No-go`
+- Current release-blocker state: `Closed`
+- Follow-on path: `QA pilot readiness / release handoff`
 
 ## Exit Criteria for Blocker Closure
 
@@ -34,7 +34,7 @@
 - [x] `release-rc` appears in default-branch workflow list.
 - [x] Required signing secrets and one notarization credential set are present.
 - [x] Signed CI RC artifact produced and verifiably signed/notarized.
-- [ ] Signed smoke checklist passes critical path end-to-end.
+- [x] Signed smoke checklist passes critical path end-to-end.
 
 ## Note
 
