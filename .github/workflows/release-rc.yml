@@ -34,7 +34,7 @@ jobs:
       APPLE_API_PRIVATE_KEY: ${{ secrets.APPLE_API_PRIVATE_KEY }}
       RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: 20
@@ -113,7 +113,7 @@ jobs:
           set -euo pipefail
           bash scripts/release/verify-macos-artifact.sh "src-tauri/target/release/bundle" "${{ steps.signing.outputs.mode }}"
       - name: Upload RC bundle artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: auraforge-${{ github.run_number }}-${{ steps.signing.outputs.mode }}-${{ inputs.channel }}
           path: |
