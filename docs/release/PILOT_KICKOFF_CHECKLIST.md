@@ -24,6 +24,8 @@
 - [ ] Known-good artifact link and checksum shared.
 - [ ] Communication channel and support hours shared.
 
+Distribution packet draft: `docs/release/PILOT_DISTRIBUTION_PACKET.md`
+
 ## First-Day Controls
 
 - [x] Incident log initialized (`docs/reports/PILOT_INCIDENT_LOG.md`).
@@ -35,3 +37,8 @@
 1. Final participant roster.
 2. Exact distribution message and install instructions.
 3. Communication channel and active support-hours window.
+
+## Week 6 Operation Artifacts
+
+- Pilot distribution packet: `docs/release/PILOT_DISTRIBUTION_PACKET.md`
+- Pilot operation log: `docs/reports/WEEK6_PILOT_OPERATION_LOG.md`

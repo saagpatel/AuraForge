@@ -12,9 +12,22 @@
 
 ## Incident Records
 
-| Incident ID | Date/Time | Severity | Surface | Summary | Owner | ETA | Status | Resolution |
-| ----------- | --------- | -------- | ------- | ------- | ----- | --- | ------ | ---------- |
-|             |           |          |         |         |       |     |        |            |
+| Incident ID | Date/Time | Severity | Surface | Summary                               | Owner | ETA   | Status        | Resolution |
+| ----------- | --------- | -------- | ------- | ------------------------------------- | ----- | ----- | ------------- | ---------- |
+| `PILOT-000` | `TBD`     | `TBD`    | `TBD`   | No live pilot incidents recorded yet. | `TBD` | `TBD` | `Not started` | `TBD`      |
+
+## Intake Fields
+
+Use these fields for every live pilot issue before assigning severity:
+
+1. Reporter and participant identifier.
+2. macOS version.
+3. Artifact installed.
+4. Step affected: install, launch, session creation, generation, export, or other.
+5. Exact error text or screenshot.
+6. Reproduction steps.
+7. Retry result.
+8. Owner and next update time.
 
 ## Severity Reference
 
