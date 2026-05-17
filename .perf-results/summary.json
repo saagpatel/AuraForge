@@ -1,33 +1,33 @@
 {
-  "capturedAt": "2026-05-16T11:16:21.835Z",
+  "capturedAt": "2026-05-17T03:45:20.513Z",
   "metrics": {
     "bundle": {
       "source": "vite",
-      "totalBytes": 586427,
+      "totalBytes": 586432,
       "assets": {
         "index.html": 807,
-        "assets/DocumentPreview-DkVORLSG.js": 7635,
-        "assets/HelpPanel-CNGEJkJJ.js": 6757,
-        "assets/SettingsPanel-PEjGkYCc.js": 18984,
-        "assets/SyntaxCodeBlock-DNBHcpeK.js": 76199,
-        "assets/index-BVyXuAWF.js": 268648,
+        "assets/DocumentPreview-D9ukCPtV.js": 7635,
+        "assets/HelpPanel-CiawAbi-.js": 6757,
+        "assets/SettingsPanel-rMM2i_wX.js": 18989,
+        "assets/SyntaxCodeBlock-D0Fja7_Z.js": 76199,
+        "assets/index-DyW0JPQJ.js": 268648,
         "assets/index-KSfQzDQq.css": 37714,
-        "assets/vendor-markdown-Di0KN8eB.js": 165781,
-        "assets/vendor-react-CzdGwUAN.js": 3902
+        "assets/vendor-markdown-QLACey0S.js": 165781,
+        "assets/vendor-react-CkQ1LWcg.js": 3902
       },
-      "capturedAt": "2026-05-16T11:16:18.059Z"
+      "capturedAt": "2026-05-17T03:45:16.836Z"
     },
     "build": {
-      "buildMs": 3073,
-      "capturedAt": "2026-05-16T11:16:21.276Z",
+      "buildMs": 3084,
+      "capturedAt": "2026-05-17T03:45:20.061Z",
       "command": "npm_execpath run build"
     },
     "memory": {
       "heapBefore": 3866648,
-      "heapAfter": 3871296,
+      "heapAfter": 3871328,
       "deltaMb": 0,
       "maxDeltaMb": 5,
-      "capturedAt": "2026-05-16T11:16:21.722Z"
+      "capturedAt": "2026-05-17T03:45:20.394Z"
     },
     "api": {
       "status": "not-run"

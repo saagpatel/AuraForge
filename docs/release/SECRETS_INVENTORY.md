@@ -17,10 +17,22 @@ This inventory is used by `.github/workflows/release-rc.yml`.
 - `APPLE_TEAM_ID`:
   Apple Developer Team ID.
 
+## Notarization Credential Options
+
+Provide one of these notarization credential sets:
+
+- Apple ID mode:
+  - `APPLE_ID`
+  - `APPLE_PASSWORD`
+- App Store Connect API key mode:
+  - `APPLE_API_KEY_ID`
+  - `APPLE_API_ISSUER`
+  - `APPLE_API_PRIVATE_KEY`
+
 ## Behavior
 
-- If all values are present, release workflow reports `signing mode: signed`.
-- If any value is missing, release workflow reports `signing mode: unsigned`.
+- If signing secrets and one notarization credential set are present, release workflow reports `signing mode: signed`.
+- If signing secrets or notarization credentials are missing, release workflow reports `signing mode: unsigned`.
 - Unsigned artifacts are internal QA only and do not satisfy production-ready release criteria.
 
 ## Ownership

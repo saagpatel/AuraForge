@@ -29,6 +29,9 @@ jobs:
       APPLE_ID: ${{ secrets.APPLE_ID }}
       APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+      APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+      APPLE_API_PRIVATE_KEY: ${{ secrets.APPLE_API_PRIVATE_KEY }}
       RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
@@ -44,7 +47,18 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -n "${APPLE_CERTIFICATE}" && -n "${APPLE_CERTIFICATE_PASSWORD}" && -n "${APPLE_SIGNING_IDENTITY}" && -n "${APPLE_ID}" && -n "${APPLE_PASSWORD}" && -n "${APPLE_TEAM_ID}" ]]; then
+          has_certificate="false"
+          has_notary_auth="false"
+          if [[ -n "${APPLE_CERTIFICATE}" && -n "${APPLE_CERTIFICATE_PASSWORD}" && -n "${APPLE_SIGNING_IDENTITY}" && -n "${APPLE_TEAM_ID}" ]]; then
+            has_certificate="true"
+          fi
+          if [[ -n "${APPLE_ID}" && -n "${APPLE_PASSWORD}" ]]; then
+            has_notary_auth="true"
+          fi
+          if [[ -n "${APPLE_API_KEY_ID}" && -n "${APPLE_API_ISSUER}" && -n "${APPLE_API_PRIVATE_KEY}" ]]; then
+            has_notary_auth="true"
+          fi
+          if [[ "${has_certificate}" == "true" && "${has_notary_auth}" == "true" ]]; then
             echo "mode=signed" >> "$GITHUB_OUTPUT"
           else
             echo "mode=unsigned" >> "$GITHUB_OUTPUT"
@@ -70,6 +84,19 @@ jobs:
           security import "$CERT_PATH" -k "$KEYCHAIN_PATH" -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
           security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
           security find-identity -v -p codesigning "$KEYCHAIN_PATH"
+      - name: Prepare App Store Connect API key
+        if: ${{ steps.signing.outputs.mode == 'signed' && env.APPLE_API_PRIVATE_KEY != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          API_KEY_PATH="$RUNNER_TEMP/AuthKey_${APPLE_API_KEY_ID}.p8"
+          printf '%s' "$APPLE_API_PRIVATE_KEY" > "$API_KEY_PATH"
+          chmod 600 "$API_KEY_PATH"
+          {
+            echo "APPLE_API_KEY=${APPLE_API_KEY_ID}"
+            echo "APPLE_API_ISSUER=${APPLE_API_ISSUER}"
+            echo "APPLE_API_KEY_PATH=${API_KEY_PATH}"
+          } >> "$GITHUB_ENV"
       - name: Build RC artifact
         run: npm run tauri -- build
       - name: Verify macOS artifact integrity
