@@ -18,13 +18,13 @@
 
 ## Track A (Pilot Operation) Notes
 
-| Day   | Key activity               | Result | Follow-up |
-| ----- | -------------------------- | ------ | --------- |
-| Day 1 | Pilot kickoff              |        |           |
-| Day 2 | Active monitoring          |        |           |
-| Day 3 | Stabilization patch window |        |           |
-| Day 4 | Reliability check          |        |           |
-| Day 5 | Expansion decision         |        |           |
+| Day   | Key activity               | Result                                                 | Follow-up                                                     |
+| ----- | -------------------------- | ------------------------------------------------------ | ------------------------------------------------------------- |
+| Day 1 | Pilot kickoff              | Ready to start once distribution inputs are confirmed. | Use `docs/release/PILOT_DISTRIBUTION_PACKET.md`.              |
+| Day 2 | Active monitoring          | Pending pilot evidence.                                | Record status in `docs/reports/WEEK6_PILOT_OPERATION_LOG.md`. |
+| Day 3 | Stabilization patch window | Pending pilot evidence.                                | Decide patch need from incident volume and severity.          |
+| Day 4 | Reliability check          | Pending pilot evidence.                                | Confirm no unresolved P0/P1 before expansion.                 |
+| Day 5 | Expansion decision         | Pending pilot evidence.                                | Publish expand, hold, or remediate decision.                  |
 
 ## Track B (Remediation Sprint) Notes
 
