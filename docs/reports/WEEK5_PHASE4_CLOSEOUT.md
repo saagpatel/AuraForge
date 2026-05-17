@@ -3,18 +3,18 @@
 ## Summary
 
 - Week: `Week 5 (Phase 4)`
-- Track executed: `TBD` (`Track A` pilot operation or `Track B` remediation)
-- Closeout status: `Pending`
-- Date: `TBD`
+- Track executed: `Track B` remediation sprint
+- Closeout status: `Closed for remediation; ready for Track A pilot operation`
+- Date: `2026-05-17`
 
 ## Outcomes
 
 | Outcome                            | Target | Actual | Status |
 | ---------------------------------- | ------ | ------ | ------ |
-| Signed release gates green         | Yes    |        | TBD    |
-| Signed critical-path smoke passing | Yes    |        | TBD    |
-| No unresolved P1 at close          | Yes    |        | TBD    |
-| Phase Four decision recorded       | Yes    |        | TBD    |
+| Signed release gates green         | Yes    | Yes    | Pass   |
+| Signed critical-path smoke passing | Yes    | Yes    | Pass   |
+| No unresolved P1 at close          | Yes    | Yes    | Pass   |
+| Phase Four decision recorded       | Yes    | Yes    | Pass   |
 
 ## Track A (Pilot Operation) Notes
 
@@ -28,18 +28,18 @@
 
 ## Track B (Remediation Sprint) Notes
 
-| Day   | Key activity         | Result | Follow-up |
-| ----- | -------------------- | ------ | --------- |
-| Day 1 | Re-baseline blockers |        |           |
-| Day 2 | Signing lane closure |        |           |
-| Day 3 | Signed smoke closure |        |           |
-| Day 4 | Gate replay          |        |           |
-| Day 5 | Re-decision          |        |           |
+| Day   | Key activity         | Result                                                                                | Follow-up                       |
+| ----- | -------------------- | ------------------------------------------------------------------------------------- | ------------------------------- |
+| Day 1 | Re-baseline blockers | Release blockers narrowed to signed CI and signed smoke closure.                      | Closed                          |
+| Day 2 | Signing lane closure | Signed release workflow succeeded with artifact `7039209964 / auraforge-3-signed-qa`. | Closed                          |
+| Day 3 | Signed smoke closure | Signed app installed, launched, generated documents, and exported output.             | Closed                          |
+| Day 4 | Gate replay          | Local smoke and git guard checks passed during release-evidence closeout.             | Continue routine CI monitoring  |
+| Day 5 | Re-decision          | RC decision updated to `Go for QA pilot handoff`.                                     | Begin Track A pilot launch prep |
 
 ## Final Decision and Week 6 Entry
 
-- Final decision: `TBD`
-- Week 6 objective: `TBD`
+- Final decision: `Go for QA pilot handoff`
+- Week 6 objective: `Run Track A pilot operation with active incident monitoring`
 - Committed owners:
   1. PM: `AuraForge PM`
   2. Engineering: `AuraForge Eng`
