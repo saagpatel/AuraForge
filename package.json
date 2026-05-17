@@ -39,8 +39,8 @@
     "perf:lhci": "npx --yes @lhci/cli@0.15.1 autorun --config=lighthouserc.json",
     "perf:lhci:prod": "npx --yes @lhci/cli@0.15.1 autorun --config=.lighthouserc.production.json",
     "perf:summary": "node scripts/perf/summarize.mjs",
-    "phase4:prereqs": "bash scripts/release/check-phase4-prereqs.sh saagar210/auraforge",
-    "phase4:gates": "bash scripts/release/run-phase4-gates.sh saagar210/auraforge",
+    "phase4:prereqs": "bash scripts/release/check-phase4-prereqs.sh saagpatel/AuraForge",
+    "phase4:gates": "bash scripts/release/run-phase4-gates.sh saagpatel/AuraForge",
     "lint-staged": "lint-staged"
   },
   "dependencies": {

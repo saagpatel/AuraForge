@@ -2,11 +2,17 @@
 
 ## Open Blockers
 
-| Blocker                                                                                                                                                         | Impact                                                 | Owner              | Mitigation                                                                                  | Target Resolution | Status |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------ | ------------------------------------------------------------------------------------------- | ----------------- | ------ |
-| Required `APPLE_*` secrets missing (`APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_SIGNING_IDENTITY`, `APPLE_ID`, `APPLE_PASSWORD`, `APPLE_TEAM_ID`) | Signed/notarized release path is blocked               | AuraForge PM       | Configure all secret values per `docs/release/SECRETS_INVENTORY.md`                         | 2026-02-23        | Open   |
-| Signed release lane fails when `require_signed=true`                                                                                                            | Cannot produce signed RC artifact or pass release gate | AuraForge Eng + PM | Re-run `release-rc` after secrets provisioning; require pass on signing/notarization checks | 2026-02-23        | Open   |
-| Signed critical-path smoke not executed on signed artifact                                                                                                      | Go decision cannot be made                             | AuraForge Eng      | Run `docs/release/SIGNED_SMOKE_CHECKLIST.md` on signed artifact and attach evidence         | 2026-02-23        | Open   |
+| Blocker                                                    | Impact                                                 | Owner              | Mitigation                                                                                  | Target Resolution | Status |
+| ---------------------------------------------------------- | ------------------------------------------------------ | ------------------ | ------------------------------------------------------------------------------------------- | ----------------- | ------ |
+| Signed release lane fails when `require_signed=true`       | Cannot produce signed RC artifact or pass release gate | AuraForge Eng + PM | Re-run `release-rc` after secrets provisioning; require pass on signing/notarization checks | 2026-02-23        | Open   |
+| Signed critical-path smoke not executed on signed artifact | Go decision cannot be made                             | AuraForge Eng      | Run `docs/release/SIGNED_SMOKE_CHECKLIST.md` on signed artifact and attach evidence         | 2026-02-23        | Open   |
+
+## Resolved Today (2026-05-17)
+
+| Item                                              | Evidence                                                                                                                 | Status |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------ |
+| Signing and notarization repository secrets added | `npm run phase4:prereqs` reports required signing secrets and notarization credentials present for `saagpatel/AuraForge` | Closed |
+| App Store Connect API-key notarization supported  | `release-rc.yml` accepts `APPLE_API_KEY_ID`, `APPLE_API_ISSUER`, and `APPLE_API_PRIVATE_KEY` as the notarization set     | Closed |
 
 ## Resolved Today (2026-02-22)
 
@@ -26,7 +32,7 @@
 
 - [x] PR `#12` merged to `main`.
 - [x] `release-rc` appears in default-branch workflow list.
-- [ ] All six required `APPLE_*` secrets are present.
+- [x] Required signing secrets and one notarization credential set are present.
 - [ ] Signed CI RC artifact produced and verifiably signed/notarized.
 - [ ] Signed smoke checklist passes critical path end-to-end.
 
