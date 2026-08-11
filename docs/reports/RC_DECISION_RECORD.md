@@ -59,7 +59,7 @@ None.
 | Field             | Value                                                                                                               |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------- |
 | Installed app     | `/tmp/AuraForge-signed-smoke-install/AuraForge.app`                                                                 |
-| Export folder     | `/Users/d/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan` |
+| Export folder     | `~/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan` |
 | Local smoke model | `qwen2.5-coder:1.5b` through Ollama at `http://localhost:11434`                                                     |
 | Database evidence | `~/.auraforge/auraforge.db` contained 1 session, 6 messages, 1 generation run, and 10 generated documents           |
 | Export evidence   | Export folder contains 12 readable files: planning docs, context, handoff, reports, and manifest                    |
