@@ -17,7 +17,7 @@ Use this checklist only on the signed artifact produced by `.github/workflows/re
 | 3    | Create a new session                     | Session appears in session list                        | Pass      | Smoke project session appeared in the sidebar as `I want to build a small ...`.                                                                               |
 | 4    | Submit conversation input                | Message accepted and displayed                         | Pass      | Three user prompts and three assistant responses persisted to `~/.auraforge/auraforge.db`.                                                                    |
 | 5    | Trigger document generation              | Generated output appears in UI                         | Pass      | Documents tab appeared with generated `START_HERE.md`, `README.md`, `SPEC.md`, `CLAUDE.md`, `PROMPTS.md`, `MODEL_HANDOFF.md`, `CONVERSATION.md`, and reports. |
-| 6    | Export/save generated output             | File is saved and readable from disk                   | Pass      | Export saved to `/Users/d/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan`.                          |
+| 6    | Export/save generated output             | File is saved and readable from disk                   | Pass      | Export saved to `~/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan`.                          |
 
 ## Failure Classification
 
@@ -40,4 +40,4 @@ Use this checklist only on the signed artifact produced by `.github/workflows/re
 - DMG SHA256: `9466250dc96877642c171f2812a29b80d9dfaf4b623d742aa3bcb41ee1f4bf98`
 - Local smoke model: `qwen2.5-coder:1.5b` via Ollama at `http://localhost:11434`
 - Generated document count: `10` persisted documents; `12` exported files including structured manifest/checklist layout.
-- Export folder: `/Users/d/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan`
+- Export folder: `~/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan`

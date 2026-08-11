@@ -49,7 +49,7 @@
 | Smoke project  | `SmokeNotes` desktop notes planner                                                                                                          |
 | Local model    | `qwen2.5-coder:1.5b` via Ollama                                                                                                             |
 | Generated docs | 10 persisted documents in `~/.auraforge/auraforge.db`                                                                                       |
-| Exported files | 12 readable files under `/Users/d/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan` |
+| Exported files | 12 readable files under `~/Projects/auraforge-signed-smoke-export/i-want-to-build-a-small-desktop-tool-called-smokenotes-for-c-plan` |
 | Result         | Pass                                                                                                                                        |
 
 ## Command Evidence (2026-02-22)
