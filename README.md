@@ -46,6 +46,9 @@ npm run dev:lean
 
 On first launch, the onboarding wizard guides you through connecting Ollama and pulling a model.
 
+For tests that use mocked Tauri calls without Ollama, native test prerequisites,
+and build checks, see [Contributing: verification](CONTRIBUTING.md#verification).
+
 ## Tech Stack
 
 | Layer         | Technology                                                    |
