@@ -16,7 +16,7 @@ lint:
 	cargo clippy $(MANIFEST) -- -D warnings
 
 run:
-	cargo run $(MANIFEST)
+	npm run dev:tauri
 
 clean:
 	cargo clean $(MANIFEST)
