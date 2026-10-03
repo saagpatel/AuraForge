@@ -20,7 +20,7 @@ Follow the existing conventions in the codebase.
 
 ## Verification
 
-Run from the repository root. CI uses Node 20 and the committed npm lockfile:
+Run from the repository root. CI uses Node 24 and the committed npm lockfile:
 
 ```bash
 npm ci
