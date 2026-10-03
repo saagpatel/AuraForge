@@ -1,19 +1,22 @@
 .PHONY: build test lint clean check run
 
+# Rust crate lives in src-tauri/; there is no Cargo.toml at the repo root.
+MANIFEST := --manifest-path src-tauri/Cargo.toml
+
 build:
-	cargo build --release
+	cargo build $(MANIFEST) --release
 
 check:
-	cargo check
+	cargo check $(MANIFEST)
 
 test:
-	cargo test
+	cargo test $(MANIFEST)
 
 lint:
-	cargo clippy -- -D warnings
+	cargo clippy $(MANIFEST) -- -D warnings
 
 run:
-	cargo run
+	npm run dev:tauri
 
 clean:
-	cargo clean
+	cargo clean $(MANIFEST)

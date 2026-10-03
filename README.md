@@ -21,7 +21,7 @@ Everything runs locally via Ollama. No data leaves your machine.
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20 (the CI version) and npm; `package-lock.json` is the lockfile
 - Rust stable toolchain (`rustup`)
 - [Ollama](https://ollama.ai) installed and running locally
 - Tauri system dependencies: [tauri.app/start/prerequisites](https://tauri.app/start/prerequisites/)
@@ -31,7 +31,7 @@ Everything runs locally via Ollama. No data leaves your machine.
 ```bash
 git clone https://github.com/saagpatel/AuraForge
 cd AuraForge
-npm install
+npm ci
 ```
 
 ### Usage
@@ -57,7 +57,7 @@ and build checks, see [Contributing: verification](CONTRIBUTING.md#verification)
 | Frontend      | React 19, TypeScript, Tailwind CSS 4, Zustand                 |
 | Backend       | Rust — document generation, linting, artifact diffing, search |
 | Local AI      | Ollama (any compatible model)                                 |
-| Storage       | SQLite via rusqlite, local app data dir                       |
+| Storage       | SQLite via rusqlite at `~/.auraforge/auraforge.db`            |
 | Testing       | Vitest, Testing Library                                       |
 
 ## Architecture

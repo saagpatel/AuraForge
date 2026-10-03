@@ -6,10 +6,15 @@ Tauri 2 + React + TypeScript + Vite + Tailwind + Vitest
 
 ## Key Commands
 
-- `pnpm dev:tauri` — full Tauri dev (Rust + React)
-- `pnpm dev:lean` — web-only (no Rust, fast iteration)
-- `pnpm test` — Vitest (web), `pnpm test:rust` — Rust
-- `pnpm release:tauri` — production build
+npm is the package manager: CI (`.github/workflows/tests.yml`, `release-rc.yml`), `.codex/verify.commands` and every package.json script use npm with `package-lock.json`.
+
+- `npm ci` — install from the lockfile
+- `npm run dev:tauri` — full Tauri dev (Rust + React)
+- `npm run dev:lean` — same Tauri dev, but with throwaway Cargo/Vite caches in a temp dir (lower disk use, slower restarts)
+- `npm run dev` — Vite only, browser preview without Rust
+- `npm test` — web (Vitest) then Rust; `npm run test:web`, `npm run test:smoke`, `npm run test:rust` run each lane alone
+- `npm run build` — typecheck + frontend build
+- `npm run release:tauri` — production build
 
 ## Architecture
 
@@ -22,8 +27,8 @@ Tauri 2 + React + TypeScript + Vite + Tailwind + Vitest
 
 - Tauri commands: `#[tauri::command]` in `src-tauri/src/lib.rs` or submodules, registered in `tauri::Builder`
 - Never call external APIs from React — route through Rust commands instead
-- Test files co-located: `Component.test.tsx` alongside `Component.tsx`
-- Run `pnpm test` before considering any task complete
+- Web tests live in `src/components/__tests__/` and `src/test/smoke/`; Rust tests are in-module `#[cfg(test)]`
+- Run `npm test` before considering any task complete
 
 <!-- portfolio-context:start -->
 
@@ -31,7 +36,7 @@ Tauri 2 + React + TypeScript + Vite + Tailwind + Vitest
 
 ## What This Project Is
 
-Tauri 2 desktop app for AI-assisted creative generation. React + TypeScript frontend, Rust backend with Tauri event bridge. Built with pnpm workspaces.
+Tauri 2 desktop app for AI-assisted creative generation. React + TypeScript frontend, Rust backend with Tauri event bridge. Single npm package (not a workspace).
 
 ## Current State
 
@@ -42,16 +47,16 @@ Active development. Core Tauri scaffold with React/TypeScript frontend and Rust 
 - **Desktop shell**: Tauri 2 (Rust backend + WebView)
 - **Frontend**: React + TypeScript + Vite + Tailwind
 - **Test**: Vitest (web), cargo test (Rust)
-- **Build**: pnpm workspaces
+- **Build**: npm (`package-lock.json`), Vite, Tauri CLI
 
 ## How To Run
 
-```
-pnpm install
-pnpm dev:tauri
+```bash
+npm ci
+npm run dev:tauri
 ```
 
-For web-only iteration: `pnpm dev:lean`. Tests: `pnpm test` (Vitest) and `pnpm test:rust` (Rust).
+For browser-only iteration: `npm run dev`. Tests: `npm test` runs Vitest and then `cargo test`; `npm run test:web` and `npm run test:rust` run them separately.
 
 ## Known Risks
 
