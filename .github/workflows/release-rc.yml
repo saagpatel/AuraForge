@@ -17,11 +17,12 @@ on:
         default: false
         type: boolean
 
+permissions:
+  contents: read
+
 jobs:
   build-rc-macos:
-    runs-on: macos-latest
-    permissions:
-      contents: read
+    runs-on: macos-15
     env:
       APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
       APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
@@ -34,12 +35,12 @@ jobs:
       APPLE_API_PRIVATE_KEY: ${{ secrets.APPLE_API_PRIVATE_KEY }}
       RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@89b12181fb390509a0842a86cc55eeb8eb928c1d # stable (2026-10-05)
       - run: npm ci
       - run: npm run build
       - name: Detect signing readiness
@@ -113,7 +114,7 @@ jobs:
           set -euo pipefail
           bash scripts/release/verify-macos-artifact.sh "src-tauri/target/release/bundle" "${{ steps.signing.outputs.mode }}"
       - name: Upload RC bundle artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: auraforge-${{ github.run_number }}-${{ steps.signing.outputs.mode }}-${{ inputs.channel }}
           path: |
